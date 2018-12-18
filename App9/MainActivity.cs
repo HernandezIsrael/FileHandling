@@ -11,6 +11,7 @@ using System.Collections;
 using Android.Util;
 using Java.Lang;
 using System.Threading.Tasks;
+using AlertDialog = Android.App.AlertDialog;
 
 namespace App9
 {
@@ -94,6 +95,7 @@ namespace App9
                 Toast.MakeText(this, "Creating log...", ToastLength.Short).Show();
                 appDirectory = Android.App.Application.Context.GetExternalFilesDir(null).AbsolutePath;
                 textFilePath = Path.Combine(appDirectory, "log.txt");
+                File.WriteAllText(textFilePath, "");
 
                 Task.Factory.StartNew(() => { //Let's create a new thread
 
@@ -120,6 +122,10 @@ namespace App9
                 textFilePath = Path.Combine(appDirectory, "log.txt");
                 text = File.ReadAllText(textFilePath);
                 Log.Debug("FILE", text);
+                AlertDialog.Builder alert = new Android.App.AlertDialog.Builder(this);
+                alert.SetTitle("Log records");
+                alert.SetMessage(text);
+                alert.Show();
             };
         }
 
